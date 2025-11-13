@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - Saffran Patisserie | Authentic Persian & Middle Eastern Sweets</title>
+    <meta name="description" content="Explore our authentic collection of Persian & Middle Eastern desserts. Traditional baklava, Persian cookies, creamy pastries, and family recipes since 1987.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <style>
+        :root {
+            --saffron: #F4A460;
+            --persian-rose: #D4A5A5;
+            --warm-cream: #F8F6F0;
+            --deep-teal: #2F4F4F;
+            --warm-brown: #8B4513;
+            --light-grey: #F5F5F5;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--warm-cream);
+            color: var(--deep-teal);
+            line-height: 1.6;
+        }
+        
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .font-script {
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, var(--saffron) 0%, var(--persian-rose) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-blur {
+            backdrop-filter: blur(10px);
+            background: rgba(248, 246, 240, 0.95);
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(47, 79, 79, 0.1);
+        }
+        
+        .animate-fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .animate-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        .category-tab {
+            transition: all 0.3s ease;
+            background-color: transparent;
+            color: var(--deep-teal);
+        }
+        
+        .category-tab.active {
+            background-color: var(--saffron);
+            color: white;
+        }
+        
+        .category-tab:not(.active):hover {
+            background-color: rgba(244, 164, 96, 0.1);
+            color: var(--saffron);
+        }
+        
+        .menu-item {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .sticky-tabs {
+            position: sticky;
+            top: 64px; /* Height of navigation */
+            z-index: 40;
+            background-color: var(--light-grey);
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .btn-primary {
+            background-color: var(--saffron);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #E69555;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(244, 164, 96, 0.3);
+        }
+        
+        .btn-secondary {
+            border: 2px solid var(--saffron);
+            color: var(--saffron);
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--saffron);
+            color: white;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 nav-blur border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="font-display text-2xl font-semibold text-gradient">Saffran</a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="text-deep-teal hover:text-saffron transition-colors duration-200 font-medium">Home</a>
+                        <a href="menu.html" class="text-saffron font-semibold">Menu</a>
+                        <a href="about.html" class="text-deep-teal hover:text-saffron transition-colors duration-200 font-medium">About</a>
+                        <a href="contact.html" class="text-deep-teal hover:text-saffron transition-colors duration-200 font-medium">Contact</a>
+                        <a href="https://www.ubereats.com/au/store/saffran-patisserie/EcCte9nXRRWm6nk5oxqvTA" target="_blank" class="btn-primary px-4 py-2 rounded-full font-medium">Order Now</a>
+                    </div>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-deep-teal hover:text-saffron focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu md:hidden fixed top-16 left-0 w-full h-screen bg-warm-cream z-40">
+            <div class="px-4 pt-6 space-y-4">
+                <a href="index.html" class="block text-deep-teal hover:text-saffron transition-colors duration-200 font-medium py-2">Home</a>
+                <a href="menu.html" class="block text-saffron font-semibold py-2">Menu</a>
+                <a href="about.html" class="block text-deep-teal hover:text-saffron transition-colors duration-200 font-medium py-2">About</a>
+                <a href="contact.html" class="block text-deep-teal hover:text-saffron transition-colors duration-200 font-medium py-2">Contact</a>
+                <a href="https://www.ubereats.com/au/store/saffran-patisserie/EcCte9nXRRWm6nk5oxqvTA" target="_blank" class="block btn-primary px-4 py-2 rounded-full font-medium text-center mt-4">Order Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="animate-fade-in">
+                <h1 class="font-display text-5xl md:text-6xl font-bold text-deep-teal mb-6">
+                    Our Authentic <span class="text-gradient">Menu</span>
+                </h1>
+                <p class="text-xl text-deep-teal max-w-2xl mx-auto">
+                    Discover our exquisite collection of Persian & Middle Eastern desserts, each crafted with 
+                    traditional techniques and the finest ingredients passed down through generations.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Tabs - Fixed sticky positioning -->
+    <div class="sticky-tabs py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center gap-2">
+                <button class="category-tab active px-6 py-3 rounded-full font-medium" data-category="all">All Items</button>
+                <button class="category-tab px-6 py-3 rounded-full font-medium" data-category="baklava">Baklava</button>
+                <button class="category-tab px-6 py-3 rounded-full font-medium" data-category="cookies">Cookies</button>
+                <button class="category-tab px-6 py-3 rounded-full font-medium" data-category="pastries">Pastries</button>
+                <button class="category-tab px-6 py-3 rounded-full font-medium" data-category="nougat">Nougat</button>
+                <button class="category-tab px-6 py-3 rounded-full font-medium" data-category="creamy">Creamy Desserts</button>
+                <button class="category-tab px-6 py-3 rounded-full font-medium" data-category="seasonal">Seasonal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Items -->
+    <section class="py-16 bg-warm-cream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="menu-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Baklava -->
+                <div class="menu-item card-hover bg-white rounded-2xl overflow-hidden shadow-lg" data-category="baklava">
+                    <img src="https://kimi-web-img.moonshot.cn/img/familyspice.com/e45df0bb770417d52d4705adab74ec41885d3751.jpg" alt="Persian Baklava" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-display text-2xl font-semibold text-deep-teal mb-2">Persian Baklava</h3>
+                        <p class="text-deep-teal mb-4">Delicate diamond-shaped pastries with layers of phyllo, filled with pistachios and scented with rose water syrup. Lighter and drier than Turkish versions.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-saffron font-semibold text-lg">$3.50 each</span>
+                            <span class="text-sm text-gray-500">Box of 6: $19.50</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item card-hover bg-white rounded-2xl overflow-hidden shadow-lg" data-category="baklava">
+                    <img src="https://kimi-web-img.moonshot.cn/img/familyspice.com/6db1d90be406dac80a3d8094674ea2070946c417.jpg" alt="Mixed Baklava Platter" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-display text-2xl font-semibold text-deep-teal mb-2">Mixed Baklava Platter</h3>
+                        <p class="text-deep-teal mb-4">An assortment of our finest baklava varieties including diamond, rolled, and square shapes with different nut fillings.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-saffron font-semibold text-lg">$25.00 platter</span>
+                            <span class="text-sm text-gray-500">Serves 4-6</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cookies -->
+                <div class="menu-item card-hover bg-white rounded-2xl overflow-hidden shadow-lg" data-category="cookies">
+                    <img src="https://kimi-web-img.moonshot.cn/img/shopipersia.com/678412f031d9cd0850f633c04d2ce17645c45e7c.jpg" alt="Nokhodchi Cookies" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-display text-2xl font-semibold text-deep-teal mb-2">Nokhodchi Cookies</h3>
+                        <p class="text-deep-teal mb-4">Delicate chickpea flour cookies infused with cardamom and topped with pistachios. Melt-in-your-mouth texture perfect with tea.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-saffron font-semibold text-lg">$15.00 box</span>
+                            <span class="text-sm text-gray-500">Approx. 12 pieces</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item card-hover bg-white rounded-2xl overflow-hidden shadow-lg" data-category="cookies">
+                    <img src="https://kimi-web-img.moonshot.cn/img/preview.redd.it/5fe3716870ee789bdfdd3494bb637ad57669cb9f.jpg" alt="Persian Tea Cookies" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-display text-2xl font-semibold text-deep-teal mb-2">Persian Tea Cookies</h3>
+                        <p class="text-deep-teal mb-4">Traditional cookies perfect for afternoon tea, made with rose water, cardamom, and decorated with pistachios.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-saffron font-semibold text-lg">$12.00 box</span>
+                            <span class="text-sm text-gray-500">Approx. 15 pieces</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pastries -->
+                <div class="menu-item card-hover bg-white rounded-2xl overflow-hidden shadow-lg" data-category="pastries">
+                    <img src="https://kimi-web-img.moonshot.cn/img/www.aheadofthyme.com/8f8c2ba05db620d5e4fe5bbd6e4c8010d9b3551c.jpg" alt="Qottab Pastries" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-display text-2xl font-semibold text-deep-teal mb-2">Qottab Pastries</h3>
+                        <p class="text-deep-teal mb-4">Traditional crescent-shaped pastries from Yazd, filled with spiced almonds and walnuts, dusted with powdered sugar.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-saffron font-semibold text-lg">$2.50 each</span>
+                            <span class="text-sm text-gray-500">Box of 8: $18.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item card-hover bg-white rounded-2xl overflow-hidden shadow-lg" data-category="pastries">
+                    <img src="https://kimi-web-img.moonshot.cn/img/persianmama.com/e19352a3287c57813f571b563a1d0fe87c6b5d1f.jpg" alt="Kolompeh Pastries" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-display text-2xl font-semibold text-deep-teal mb-2">Kolompeh Pastries</h3>
+                        <p class="text-deep-teal mb-4">Traditional round pastries from Kerman filled with date paste, cardamom, and decorated with crushed pistachios.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-saffron font-semibold text-lg">$3.00 each</span>
+                            <span class="text-sm text-gray-500">Box of 6: $16.50</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nougat -->
+                <div class="menu-item card-hover bg-white rounded-2xl overflow-hidden shadow-lg" data-category="nougat">
+                    <img src="https://kimi-web-img.moonshot.cn/img/www.thedeliciouscrescent.com/bc729bf39bb351085efa85e1826c403a06951788.jpg" alt="Gaz Nougat" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-display text-2xl font-semibold text-deep-teal mb-2">Gaz Nougat</h3>
+                        <p class="text-deep-teal mb-4">Traditional Persian nougat from Isfahan, made with rose water, egg whites, and packed with premium pistachios.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-saffron font-semibold text-lg">$18.00 box</span>
+                            <span class="text-sm text-gray-500">Approx. 200g</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item card-hover bg-white rounded-2xl overflow-hidden shadow-lg" data-category="nougat">
+                    <img src="https://kimi-web-img.moonshot.cn/img/silkroadrecipes.com/4466b3443aefddc629c9adf5ccd88a4ac8eec95c.jpg" alt="Saffron Nougat" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-display text-2xl font-semibold text-deep-teal mb-2">Saffron Nougat</h3>
+                        <p class="text-deep-teal mb-4">Premium nougat infused with saffron and rose water, filled with almonds and pistachios. A true Persian delicacy.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-saffron font-semibold text-lg">$22.00 box</span>
+                            <span class="text-sm text-gray-500">Approx. 200g</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Creamy Desserts -->
+                <div class="menu-item card-hover bg-white rounded-2xl overflow-hidden shadow-lg" data-category="creamy">
+                    <img src="https://kimi-web-img.moonshot.cn/img/www.tappersia.com/b8c997ee9d377caacc15c8e342465a89f3a4133d.jpg" alt="Sholeh Zard" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-display text-2xl font-semibold text-deep-teal mb-2">Sholeh Zard</h3>
+                        <p class="text-deep-teal mb-4">Traditional saffron rice pudding topped with almonds and cinnamon. A cherished dessert especially during Ramadan.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-saffron font-semibold text-lg">$6.50 cup</span>
+                            <span class="text-sm text-gray-500">Family size: $25.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item card-hover bg-white rounded-2xl overflow-hidden shadow-lg" data-category="creamy">
+                    <img src="https://kimi-web-img.moonshot.cn/img/www.seriouseats.com/bf9c73134335e5f769d58319a07f2f3f69b3970f.jpg" alt="Fereni Pudding" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-display text-2xl font-semibold text-deep-teal mb-2">Fereni Pudding</h3>
+                        <p class="text-deep-teal mb-4">Creamy rice flour pudding flavored with rose water and cardamom, garnished with pistachios. Served warm or chilled.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-saffron font-semibold text-lg">$5.50 cup</span>
+                            <span class="text-sm text-gray-500">Family size: $20.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seasonal Specials -->
+                <div class="menu-item card-hover bg-white rounded-2xl overflow-hidden shadow-lg" data-category="seasonal">
+                    <img src="https://kimi-web-img.moonshot.cn/img/www.thedeliciouscrescent.com/bc729bf39bb351085efa85e1826c403a06951788.jpg" alt="Nowruz Special" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-display text-2xl font-semibold text-deep-teal mb-2">Nowruz Celebration Box</h3>
+                        <p class="text-deep-teal mb-4">Special collection for Persian New Year featuring our finest sweets, beautifully packaged for gifting.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-saffron font-semibold text-lg">$45.00 box</span>
+                            <span class="text-sm text-gray-500">Limited Edition</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item card-hover bg-white rounded-2xl overflow-hidden shadow-lg" data-category="seasonal">
+                    <img src="https://kimi-web-img.moonshot.cn/img/www.ahueats.com/27fd292f633c65c1283a964902edfdf5491867ab.jpg" alt="Ramadan Special" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-display text-2xl font-semibold text-deep-teal mb-2">Ramadan Collection</h3>
+                        <p class="text-deep-teal mb-4">Special assortment of traditional sweets perfect for Iftar, including Zoolbia & Bamieh, and Sholeh Zard.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-saffron font-semibold text-lg">$35.00 box</span>
+                            <span class="text-sm text-gray-500">Seasonal</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="animate-fade-in">
+                <h2 class="font-display text-4xl md:text-5xl font-bold text-deep-teal mb-6">
+                    Ready to <span class="text-gradient">Indulge?</span>
+                </h2>
+                <p class="text-xl text-deep-teal mb-8">
+                    Visit our boutique in Baulkham Hills or order online for delivery to your door
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="https://www.ubereats.com/au/store/saffran-patisserie/EcCte9nXRRWm6nk5oxqvTA" target="_blank" class="btn-primary px-8 py-4 rounded-full font-medium text-lg">
+                        Order on Uber Eats
+                    </a>
+                    <a href="https://www.doordash.com/en-AU/store/saffran-patisserie-baulkham-hills-1970557/" target="_blank" class="btn-secondary px-8 py-4 rounded-full font-medium text-lg">
+                        Order on DoorDash
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-deep-teal text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h3 class="font-display text-3xl font-semibold text-gradient mb-4">Saffran Patisserie</h3>
+                <p class="text-lg opacity-75 mb-6">Authentic Persian & Middle Eastern Sweets in Baulkham Hills</p>
+                
+                <div class="flex justify-center space-x-6 mb-8">
+                    <a href="https://www.instagram.com/saffranpatisserie/" target="_blank" class="text-white hover:text-saffron transition-colors duration-200">
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987s11.987-5.367 11.987-11.987C24.014 5.367 18.647.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.323-1.297C4.198 14.895 3.708 13.744 3.708 12.447s.49-2.448 1.418-3.323c.875-.807 2.026-1.297 3.323-1.297s2.448.49 3.323 1.297c.928.875 1.418 2.026 1.418 3.323s-.49 2.448-1.418 3.244c-.875.807-2.026 1.297-3.323 1.297zm7.83-1.297c-.875.807-2.026 1.297-3.323 1.297s-2.448-.49-3.323-1.297c-.928-.875-1.418-2.026-1.418-3.323s.49-2.448 1.418-3.323c.875-.807 2.026-1.297 3.323-1.297s2.448.49 3.323 1.297c.928.875 1.418 2.026 1.418 3.323s-.49 2.448-1.418 3.244z"/>
+                        </svg>
+                    </a>
+                </div>
+                
+                <div class="border-t border-gray-600 pt-8">
+                    <p class="text-sm opacity-75">
+                        © 2024 Saffran Patisserie. All rights reserved. | 3/6-10 Old Northern Rd, Baulkham Hills NSW 2153
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.toggle('active');
+            });
+            
+            // Category filtering
+            const categoryTabs = document.querySelectorAll('.category-tab');
+            const menuItems = document.querySelectorAll('.menu-item');
+            
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    const category = this.dataset.category;
+                    
+                    // Filter menu items
+                    menuItems.forEach((item, index) => {
+                        const itemCategory = item.dataset.category;
+                        
+                        if (category === 'all' || itemCategory === category) {
+                            item.style.display = 'block';
+                            // Reset animation
+                            item.style.opacity = '0';
+                            item.style.transform = 'translateY(20px)';
+                            // Stagger animation
+                            setTimeout(() => {
+                                item.style.opacity = '1';
+                                item.style.transform = 'translateY(0)';
+                            }, index * 100);
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Intersection Observer for fade-in animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.animate-fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
